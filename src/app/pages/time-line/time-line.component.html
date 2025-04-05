@@ -1,0 +1,37 @@
+<main class="posts-content d-flex flex-column gap-3">
+                <!-- app-add-post -->
+
+    <app-add-post></app-add-post>
+
+    @for (post of postsId; track post.id)
+    {
+    <article class="bg-white p-4 rounded-2 shadow-sm d-flex flex-column gap-4">
+        <div class="header d-flex align-items-center gap-3">
+            <img [src]="post.user.photo" width="40" alt="Photo User" class="rounded-circle" />
+            <div>
+                <h3 class="fw-bold">{{post.user.name}}</h3>
+                <span class="fw-light text-muted">{{post.createdAt | date}}</span>
+            </div>
+        </div>
+        <div class="body-content">
+            <p>{{post.body}}</p>
+            <img [src]="post.image" class="w-100 rounded" alt="Post image" />
+        </div>
+        <div class="footer-content p-3 border-top">
+            <a #showComment class="show-comments-link d-block mb-3 text-primary fw-semibold text-decoration-none" role="button">
+                Show Comments <i class="bi bi-chat-dots"></i>
+            </a>
+
+
+            <!-- app-comment -->
+            @defer (on interaction(showComment))
+            {
+                <app-comment [postId]="post.id"></app-comment>
+            }
+            @loading {
+                <h2 class="text-center fs-3 fw-bold text-info">loading.........</h2>
+            }
+        </div>
+    </article>
+    }
+</main>

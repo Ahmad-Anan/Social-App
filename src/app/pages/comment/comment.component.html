@@ -1,0 +1,46 @@
+<section class="comment-section d-flex flex-column gap-3">
+    <!-- Comment Display -->
+    <div class="comments-container p-2 shadow-sm" style="max-height: 400px; overflow-y: auto; ">
+        @for (comment of commentId; track comment.id)
+        {
+            <div class="comment mb-3">
+                <div class="card shadow-sm">
+                    <div class="card-body d-flex align-items-start gap-3 p-3">
+                        <img [src]="comment.commentCreator.photo" alt="User comment Picture" class="comment-avatar rounded-circle" width="40" height="40" />
+                        <div class="comment-body flex-grow-1">
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="comment-author fw-bold">{{comment.commentCreator.name}}</span>
+                                    <span class="comment-date text-muted small">{{comment.createdAt | date}}</span>
+                                </div>
+                                <div class="comment-actions" ngbDropdown>
+                                    <button class="btn btn-link text-muted p-0" ngbDropdownToggle>
+                                        <i class="bi bi-three-dots"></i>
+                                    </button>
+                                    <div ngbDropdownMenu class="shadow-sm">
+                                        <button ngbDropdownItem>Edit</button>
+                                        <button ngbDropdownItem class="text-danger">Delete</button>
+                                        <button ngbDropdownItem>Report</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="comment-text mb-0">{{comment.content}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <!-- Comment Add -->
+    <div >
+        <form class="d-flex align-items-center gap-3" [formGroup]="commentGroup" (ngSubmit)="sendComment()">
+            <div class="input-group flex-grow-1" >
+                <input type="text" class="form-control  rounded-pill shadow-sm " placeholder="Write your comment..." formControlName="content" />
+            </div>
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-paper-plane"></i>
+                <span class="sr-only">Send message</span>
+            </button>
+        </form>
+    </div>
+</section>

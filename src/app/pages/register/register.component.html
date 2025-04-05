@@ -1,0 +1,175 @@
+<section class="container   p-5">
+    @if(msgError){<p class="alert alert-warning p-2 w-50 bg-warning mx-auto text-center fs-6 fw-bold rounded-2">{{msgError}}</p>}
+            @else if(msgSuccess) { <p class="alert alert-success bg- p-2 w-50 mx-auto text-center fs-6 fw-bold rounded-2">{{msgSuccess}}</p> }
+        <div class="d-flex align-items-center justify-content-center ">
+            <!-- Messages -->
+            
+        <div class="">
+            <div class="card shadow-lg border-0 rounded-4 ">
+            <div class="card-header bg-primary text-white p-4 border-bottom-0">
+                <h2 class="text-center mb-0 fw-bold">Create Your Account</h2>
+                <p class="text-center mt-2 mb-0 small opacity-75">Join us today!</p>
+            </div>
+    
+            <div class="card-body p-4 p-md-5">
+                <form [formGroup]="registerForm" (ngSubmit)="submitForm()" >
+
+                <!-- Name Field -->
+                <div class="mb-4">
+                    @let nameControl = registerForm.get('name');
+                    <label for="name" class="form-label fw-semibold text-muted small text-uppercase">Full Name</label>
+                    <div class="input-group">
+                        <i class="bi bi-person fs-5"></i>
+                    <input 
+                        id="name" 
+                        formControlName="name" type="text" class="form-control border-start-0 rounded-end py-2" placeholder="Enter your full name"
+                        [ngClass]="{'is-invalid': nameControl?.errors && nameControl?.touched}"aria-label="Full Name"/>
+                    </div>
+                    @if (nameControl?.errors && nameControl?.touched) {
+                    <div class="invalid-feedback d-block mt-1">
+                        @if (nameControl?.getError('required')) {<span>Name is required</span>}
+                        @if (nameControl?.getError('minlength')) {<span class="ms-2">| Min 3 chars</span>}
+                        @if (nameControl?.getError('maxlength')) {<span class="ms-2">| Max 20 chars</span>}
+                    </div>
+                    }
+                </div>
+    
+                <!-- Email Field -->
+                <div class="mb-4">
+                    @let emailControl = registerForm.get('email');
+                    <label for="email" class="form-label fw-semibold text-muted small text-uppercase">Email Address</label>
+                    <div class="input-group">
+                        <i class="bi bi-envelope fs-5"></i>
+                    <input 
+                        id="email" 
+                        formControlName="email" 
+                        type="email" 
+                        class="form-control border-start-0 rounded-end py-2" 
+                        placeholder="your@email.com"
+                        [ngClass]="{'is-invalid': emailControl?.errors && emailControl?.touched}"
+                        aria-label="Email Address"
+                    />
+                    </div>
+                    @if (emailControl?.errors && emailControl?.touched) {
+                    <div class="invalid-feedback d-block mt-1">
+                        @if (emailControl?.getError('required')) {<span>Email is required</span>}
+                        @if (emailControl?.getError('email')) {<span class="ms-2">| Invalid email</span>}
+                    </div>
+                    }
+                </div>
+    
+                <!-- Password Fields Row -->
+                <div class="row g-3 mb-4">
+                    <div class="col-12 col-md-6">
+                    @let passwordControl = registerForm.get('password');
+                    <label for="password" class="form-label fw-semibold text-muted small text-uppercase">Password</label>
+                    <div class="input-group">
+                        <i class="bi bi-lock fs-5"></i>
+                        <input 
+                        id="password" 
+                        formControlName="password" 
+                        type="password" 
+                        class="form-control border-start-0 rounded-end py-2" 
+                        placeholder="Password123#"
+                        [ngClass]="{'is-invalid': passwordControl?.errors && passwordControl?.touched}"
+                        aria-label="Password"
+                        />
+                    </div>
+                    @if (passwordControl?.errors && passwordControl?.touched) {
+                        <div class="invalid-feedback d-block mt-1">
+                        @if (passwordControl?.getError('required')) {<span>Required</span>}
+                        @if (passwordControl?.getError('pattern')) {<span class="ms-2">| Min 6 chars</span>}
+                        </div>
+                    }
+                    </div>
+                    <div class="col-12 col-md-6">
+                    @let rePasswordControl = registerForm.get('rePassword');
+                    <label for="rePassword" class="form-label fw-semibold text-muted small text-uppercase">Confirm Password</label>
+                    <div class="input-group">
+                        <i class="bi bi-lock-fill fs-5"></i>
+                        <input 
+                        id="rePassword" 
+                        formControlName="rePassword" 
+                        type="password" 
+                        class="form-control border-start-0 rounded-end py-2" 
+                        placeholder="Password123#"
+                        [ngClass]="{'is-invalid': registerForm.getError('mismatch') && rePasswordControl?.touched}"
+                        aria-label="Confirm Password"
+                        />
+                    </div>
+                    @if (registerForm.getError('mismatch') && rePasswordControl?.touched) {
+                        <div class="invalid-feedback d-block mt-1">Passwords don't match</div>
+                    }
+                    </div>
+                </div>
+    
+                <!-- Date of Birth and Gender Row -->
+                <div class="row g-3 mb-4">
+                    <div class="col-12 col-md-6">
+                    @let dobControl = registerForm.get('dateOfBirth');
+                    <label for="dateOfBirth" class="form-label fw-semibold text-muted small text-uppercase">Date of Birth</label>
+                    <div class="input-group">
+                        <i class="bi bi-calendar fs-5"></i>
+                        <input 
+                        id="dateOfBirth" 
+                        formControlName="dateOfBirth" 
+                        type="date" 
+                        class="form-control border-start-0 rounded-end py-2" 
+                        [ngClass]="{'is-invalid': dobControl?.errors && dobControl?.touched}"
+                        aria-label="Date of Birth"
+                        />
+                    </div>
+                    @if (dobControl?.errors && dobControl?.touched) {
+                        <div class="invalid-feedback d-block mt-1">
+                        @if (dobControl?.getError('required')) {<span>Date is required</span>}
+                        </div>
+                    }
+                    </div>
+                    <div class="col-12 col-md-6">
+                    @let genderControl = registerForm.get('gender');
+                    <label for="gender" class="form-label fw-semibold text-muted small text-uppercase">Gender</label>
+                    <div class="input-group">
+                        <i class="bi bi-gender-ambiguous fs-5"></i>
+                        <select 
+                        id="gender" 
+                        formControlName="gender" 
+                        class="form-select border-start-0 rounded-end py-2"
+                        [ngClass]="{'is-invalid': genderControl?.errors && genderControl?.touched}"
+                        aria-label="Gender"
+                        >
+                        <option value="" disabled selected>Select</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        </select>
+                    </div>
+                    @if (genderControl?.errors && genderControl?.touched) {
+                        <div class="invalid-feedback d-block mt-1">
+                        @if (genderControl?.getError('required')) {<span>Gender is required</span>}
+                        </div>
+                    }
+                    </div>
+                </div>
+    
+                
+    
+                <!-- Submit Button -->
+                <button 
+                    type="submit" 
+                    class="btn btn-primary w-100 py-3 fw-semibold rounded-3 shadow-sm text-uppercase" 
+                    [disabled]="isLoading || registerForm.invalid"
+                >
+                    @if (isLoading) {
+                    <span class="spinner-grow spinner-grow-sm me-2" role="status" aria-hidden="true"></span>}Create Account</button>
+    
+                <!-- Footer -->
+                <div class="text-center mt-4 pt-3 border-top">
+                    <p class="text-center text-muted small mt-3">
+                        Already have an account? <a routerLink="/login" class="text-primary fw-semibold  text-decoration-underline">Sign In</a>
+                        </p>
+                </div>
+                </form>
+            </div>
+            </div>
+        </div>
+        </div>
+</section>

@@ -1,0 +1,50 @@
+<div class="mb-4 d-flex align-items-center post-input-section">
+    <div class="input-group flex-grow-1">
+        <input type="text"class="form-control rounded-pill shadow-sm"(click)="open(content)"placeholder="What's on your mind?"readonly />
+    </div>
+</div>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title" id="modal-basic-title">Add New Post</h5>
+        <button type="button" class="btn-close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <form (ngSubmit)="creatPost()">
+        <div class="mb-3">
+            <textarea  [(ngModel)]="content" name="content" class="form-control" id="post-content"placeholder="What's on your mind?" require ></textarea>
+                @if (errorMessage) {<p class="text-danger mt-2">{{ errorMessage }}</p>}
+        </div>
+        <div class="d-flex justify-content-center">
+            <label
+            for="dropzone-file"
+            class="d-flex flex-column align-items-center justify-content-center w-100 h-64 border-2 border-dashed border-secondary rounded-lg cursor-pointer bg-light hover-bg-light"
+            >
+            <div class="d-flex flex-column align-items-center justify-content-center py-5">
+                <svg
+                    class="w-8 h-8 mb-4 text-muted"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 20 16"
+                >
+                <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                />
+                </svg>
+                    <p class="mb-2 text-sm text-muted">
+                        <span class="font-weight-bold">Click to upload</span> or drag and drop
+                    </p>
+                    <p class="text-xs text-muted">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+            </div>
+                <input (change)="changeImage($event)" id="dropzone-file" type="file" class="d-none" />
+            </label>
+        </div>
+        <button type="submit" class="btn w-100 btn-primary mt-3" >Post</button>
+    </form>
+    </div>
+</ng-template>
