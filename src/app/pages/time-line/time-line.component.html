@@ -1,16 +1,36 @@
 <main class="posts-content d-flex flex-column gap-3">
-                <!-- app-add-post -->
-
+    <!-- Component to add a new post -->
     <app-add-post></app-add-post>
 
-    @for (post of postsId; track post.id)
-    {
-    <article class="bg-white p-4 rounded-2 shadow-sm d-flex flex-column gap-4">
+    <!-- Handle loading state when postsId is null -->
+    @if (postsId === null) {
+    <div class="card shadow-sm border-0" aria-hidden="true">
+        <div class="ratio ratio-16x9 bg-light rounded-top">
+        <span class="placeholder w-100 h-100 d-block"></span>
+        </div>
+        <div class="card-body">
+        <h5 class="card-title placeholder-glow mb-3">
+            <span class="placeholder col-6 rounded"></span>
+        </h5>
+        <p class="card-text placeholder-glow mb-4">
+            <span class="placeholder col-7 mb-2 rounded"></span>
+            <span class="placeholder col-4 mb-2 rounded"></span>
+            <span class="placeholder col-4 mb-2 rounded"></span>
+            <span class="placeholder col-6 mb-2 rounded"></span>
+            <span class="placeholder col-8 rounded"></span>
+        </p>
+        <a href="#" tabindex="-1" class="btn btn-primary disabled placeholder col-6 rounded-pill"></a>
+        </div>
+    </div>
+    } @else {
+    <!-- Iterate over posts when postsId is an array -->
+    @for (post of postsId; track post.id) {
+        <article class="bg-white p-4 rounded-2 shadow-sm d-flex flex-column gap-4">
         <div class="header d-flex align-items-center gap-3">
             <img [src]="post.user.photo" width="40" alt="Photo User" class="rounded-circle" />
             <div>
-                <h3 class="fw-bold">{{post.user.name}}</h3>
-                <span class="fw-light text-muted">{{post.createdAt | date}}</span>
+            <h3 class="fw-bold">{{post.user.name}}</h3>
+            <span class="fw-light text-muted">{{post.createdAt | date}}</span>
             </div>
         </div>
         <div class="body-content">
@@ -19,19 +39,18 @@
         </div>
         <div class="footer-content p-3 border-top">
             <a #showComment class="show-comments-link d-block mb-3 text-primary fw-semibold text-decoration-none" role="button">
-                Show Comments <i class="bi bi-chat-dots"></i>
+            Show Comments <i class="bi bi-chat-dots"></i>
             </a>
-
-
-            <!-- app-comment -->
-            @defer (on interaction(showComment))
-            {
-                <app-comment [postId]="post.id"></app-comment>
-            }
-            @loading {
-                <h2 class="text-center fs-3 fw-bold text-info">loading.........</h2>
+            <!-- Deferred loading of comments -->
+            @defer (on interaction(showComment)) {
+            <app-comment [postId]="post.id"></app-comment>
+            } @loading {
+            <h2 class="text-center fs-3 fw-bold text-info">loading.........</h2>
             }
         </div>
-    </article>
+        </article>
+    } @empty {
+        <p class="text-center fs-4 text-muted">No posts available. Be the first to add one!</p>
+    }
     }
 </main>

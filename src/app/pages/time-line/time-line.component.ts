@@ -13,22 +13,23 @@ import { AddPostComponent } from "../add-post/add-post.component";
   templateUrl: './time-line.component.html',
   styleUrls: ['./time-line.component.scss']
 })
-export class TimeLineComponent implements OnInit{
+export class TimeLineComponent implements OnInit {
+  private readonly postsService = inject(PostsService);
+  postsId: IPosts[] | null = null; // Initialize as null to trigger skeleton
 
-private readonly postsService = inject(PostsService);
-postsId : IPosts[] = [];
+  ngOnInit(): void {
+    this.getAllPosts();
+  }
 
-ngOnInit(): void {
-  this.getAllPosts();
-}
-getAllPosts(){
-  this.postsService.getAllPosts().subscribe({
-    next: (res) => {
-      // console.log(res.posts);
-      this.postsId = res.posts
-    },
-    error: (err) => {console.log(err)},
-  })
-};
-
+  getAllPosts() {
+    this.postsService.getAllPosts().subscribe({
+      next: (res) => {
+        this.postsId = res.posts; // Update postsId with fetched data
+      },
+      error: (err) => {
+        console.error('Error fetching posts:', err);
+        this.postsId = []; // Set to empty array on error to handle gracefully
+      }
+    });
+  }
 }
